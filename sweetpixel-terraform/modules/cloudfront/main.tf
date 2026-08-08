@@ -1,13 +1,13 @@
 resource "aws_cloudfront_distribution" "cdn" {
 
   origin {
-    domain_name = "${aws_s3_bucket.wallpaper_bucket.bucket}.s3.amazonaws.com"
+    domain_name = var.bucket_domain_name
     origin_id   = "s3-origin"
   }
 
-  enabled             = true
-  is_ipv6_enabled     = true
-  comment             = "Wallpaper CDN"
+  enabled         = true
+  is_ipv6_enabled = true
+  comment         = "Wallpaper CDN"
 
   default_cache_behavior {
     target_origin_id = "s3-origin"

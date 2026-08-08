@@ -1,0 +1,16 @@
+services:
+  backend:
+    build: ./sweetpixel-backend
+    env_file:
+      - ./sweetpixel-backend/.env
+    container_name: wallpaper-backend
+    ports:
+      - "3000:3000"
+
+  frontend:
+    build: ./sweetpixel-frontend
+    container_name: wallpaper-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend

@@ -6,7 +6,7 @@ const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
 const s3 = new S3Client({
-  region: "ap-south-1"
+  region: process.env.AWS_REGION
 });
 
 router.post("/upload", upload.single("image"), async (req, res) => {
@@ -15,7 +15,7 @@ router.post("/upload", upload.single("image"), async (req, res) => {
     const file = req.file;
 
     const params = {
-      Bucket: "wallpaper-cloud-project-bucket-1",
+      Bucket: process.env.AWS_BUCKET_NAME,
       Key: "wallpapers/" + Date.now() + "-" + file.originalname,
       Body: file.buffer,
       ContentType: file.mimetype
@@ -26,7 +26,7 @@ router.post("/upload", upload.single("image"), async (req, res) => {
 
     res.json({
       message: "Upload successful",
-      imageUrl: `https://wallpaper-cloud-project-bucket-1.s3.amazonaws.com/${params.Key}`
+      imageUrl: `${process.env.S3_URL}/${params.Key}`
     });
 
   } catch (error) {

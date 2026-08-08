@@ -1,6 +1,8 @@
+import {CONFIG} from "../config.js";
+
 
 if(localStorage.getItem("adminLoggedIn") !== "true"){
-    window.location.href = "login.html";
+    window.location.href = "./login.html";
 }
 
 
@@ -12,10 +14,10 @@ document.getElementById("uploadForm").addEventListener("submit", async function(
 
   const formData = new FormData(this);
 
-  const response = await fetch("http://localhost:3000/api/upload",{
-    method:"POST",
-    body:formData
-  });
+  const response = await fetch(`${CONFIG.API_BASE_URL}/api/upload`, {
+  method: "POST",
+  body: formData
+});
 
   const data = await response.json();
 

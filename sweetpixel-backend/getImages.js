@@ -1,24 +1,26 @@
+
 const express = require("express");
 const router = express.Router();
 
 const { S3Client, ListObjectsV2Command } = require("@aws-sdk/client-s3");
 
-const s3 = new S3Client({ region: "ap-south-1" });
+const s3 = new S3Client({
+    region: process.env.AWS_REGION
+});
 
 router.get("/images", async (req,res) => {
 
     try{
 
         const command = new ListObjectsV2Command({
-            Bucket:"wallpaper-cloud-project-bucket-1",
+            Bucket: process.env.AWS_BUCKET_NAME,
             Prefix:"wallpapers/"
         });
 
         const data = await s3.send(command);
 
-        const images = data.Contents.map(file => 
-            // `https://wallpaper-cloud-project-bucket-1.s3.amazonaws.com/${file.Key}`
-            `https://d89etm64z8ho5.cloudfront.net/${file.Key}`
+        const images = data.Contents.map(file =>
+            `${process.env.CLOUDFRONT_URL}/${file.Key}`
         );
 
         res.json(images);

@@ -1,7 +1,10 @@
 
+
+
+import { CONFIG } from "../config.js";
 async function loadImages(){
 
-const response = await fetch("http://localhost:3000/api/images");
+const response = await fetch(`${CONFIG.API_BASE_URL}/api/images`)
 
 const images = await response.json();
 
