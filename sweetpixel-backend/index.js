@@ -17,3 +17,4 @@ app.use("/api",imageRoutes);
 app.listen(port,()=>{
     console.log("server is running on port " + port);
 })
+//nami
