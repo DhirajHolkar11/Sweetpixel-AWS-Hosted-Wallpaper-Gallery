@@ -20,6 +20,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      
+      - name: Check repository files
+      run: |
+        pwd
+        ls -la
+        find . -maxdepth 2 -type f
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
