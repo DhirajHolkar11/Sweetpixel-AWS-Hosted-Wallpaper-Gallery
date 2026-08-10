@@ -45,3 +45,17 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/wallpaper-backend:latest ./sweetpixel-backend
           docker push $ECR_REGISTRY/wallpaper-backend:latest
+
+      - name: Deploy frontend to ECS
+        run: |
+          aws ecs update-service \
+            --cluster wallpaper-cluster \
+            --service wallpaper-frontend-service \
+            --force-new-deployment
+
+      - name: Deploy backend to ECS
+        run: |
+          aws ecs update-service \
+            --cluster wallpaper-cluster \
+            --service wallpaper-backend-service \
+            --force-new-deployment
