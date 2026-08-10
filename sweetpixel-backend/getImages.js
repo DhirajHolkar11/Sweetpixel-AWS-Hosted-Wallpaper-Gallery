@@ -19,7 +19,7 @@ router.get("/images", async (req,res) => {
 
         const data = await s3.send(command);
 
-        const images = data.Contents.map(file =>
+        const images = (data.Contents || []).map(file =>
             `${process.env.CLOUDFRONT_URL}/${file.Key}`
         );
 
