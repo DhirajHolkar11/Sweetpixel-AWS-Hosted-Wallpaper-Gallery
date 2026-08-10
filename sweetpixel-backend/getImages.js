@@ -14,12 +14,11 @@ router.get("/images", async (req,res) => {
 
         const command = new ListObjectsV2Command({
             Bucket: process.env.AWS_BUCKET_NAME,
-            // Prefix:"wallpapers/"
+            
         });
 
         const data = await s3.send(command);
 
-        // console.log("s3 response:", data);
 
         const images = (data.Contents || []).map(file =>
             `${process.env.CLOUDFRONT_URL}/${file.Key}`

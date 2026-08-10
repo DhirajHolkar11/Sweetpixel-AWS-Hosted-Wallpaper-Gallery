@@ -16,7 +16,7 @@ router.post("/upload", upload.single("image"), async (req, res) => {
 
     const params = {
       Bucket: process.env.AWS_BUCKET_NAME,
-      Key: "wallpapers/" + Date.now() + "-" + file.originalname,
+      Key: Date.now() + "-" + file.originalname,
       Body: file.buffer,
       ContentType: file.mimetype
     };
