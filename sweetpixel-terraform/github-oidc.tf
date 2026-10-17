@@ -38,11 +38,13 @@ resource "aws_iam_role" "github_actions_sweetpixel" {
         }
         Action = "sts:AssumeRoleWithWebIdentity"
         Condition = {
-          StringEquals = {
-            "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
-            "token.actions.githubusercontent.com:sub" = "repo:DhirajHolkar11/Sweetpixel-AWS-Hosted-Wallpaper-Gallery:ref:refs/heads/main"
-          }
-        }
+  StringEquals = {
+    "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
+  }
+  StringLike = {
+    "token.actions.githubusercontent.com:sub" = "repo:DhirajHolkar11@143429479/Sweetpixel-AWS-Hosted-Wallpaper-Gallery@1319065291:ref:refs/heads/main"
+  }
+}
       }
     ]
   })
