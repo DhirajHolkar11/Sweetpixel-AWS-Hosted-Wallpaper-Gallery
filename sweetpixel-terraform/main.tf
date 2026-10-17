@@ -68,9 +68,9 @@ module "ecs" {
 
   aws_region = var.aws_region
 
-  frontend_image = var.frontend_image
+  frontend_image = "${module.ecr.frontend_repository_url}:${var.image_tag}"
 
-  backend_image = var.backend_image
+  backend_image = "${module.ecr.backend_repository_url}:${var.image_tag}"
 
   subnet_ids = [
     module.networking.public_subnet_1_id,
@@ -115,4 +115,35 @@ module "alb" {
 
   alb_security_group_id = module.security_group.alb_security_group_id
 
+}
+
+resource "aws_s3_bucket_policy" "cloudfront_read" {
+  bucket = module.s3.bucket_name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "AllowCloudFrontReadOnly"
+        Effect = "Allow"
+
+        Principal = {
+          Service = "cloudfront.amazonaws.com"
+        }
+
+        Action   = "s3:GetObject"
+        Resource = "${module.s3.bucket_arn}/*"
+
+        Condition = {
+          StringEquals = {
+            "AWS:SourceArn" = module.cloudfront.cloudfront_distribution_arn
+          }
+        }
+      }
+    ]
+  })
+
+  depends_on = [
+    module.s3
+  ]
 }

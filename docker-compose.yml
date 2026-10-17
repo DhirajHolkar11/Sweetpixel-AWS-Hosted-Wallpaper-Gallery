@@ -1,16 +1,26 @@
+
 services:
   backend:
-    build: ./sweetpixel-backend
-    env_file:
-      - ./sweetpixel-backend/.env
+    build:
+      context: ./sweetpixel-backend
     container_name: wallpaper-backend
+    environment:
+      PORT: "3000"
+      AWS_REGION: ${AWS_REGION:-ap-south-1}
+      AWS_BUCKET_NAME: ${AWS_BUCKET_NAME:-}
+      CLOUDFRONT_URL: ${CLOUDFRONT_URL:-}
     ports:
       - "3000:3000"
+    restart: unless-stopped
 
   frontend:
-    build: ./sweetpixel-frontend
+    build:
+      context: ./sweetpixel-frontend
     container_name: wallpaper-frontend
+    environment:
+      BACKEND_URL: http://backend:3000
     ports:
       - "8080:80"
     depends_on:
       - backend
+    restart: unless-stopped

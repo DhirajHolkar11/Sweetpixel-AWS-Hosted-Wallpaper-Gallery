@@ -72,13 +72,13 @@ resource "aws_lb_target_group" "backend_tg" {
   vpc_id = var.vpc_id
 
   health_check {
-
-    path = "/api/images"
-
-    protocol = "HTTP"
-
-    matcher = "200"
-
+    path                = "/health"
+    protocol            = "HTTP"
+    matcher             = "200"
+    healthy_threshold   = 2
+    unhealthy_threshold = 3
+    interval            = 30
+    timeout             = 5
   }
 
   lifecycle {

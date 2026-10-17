@@ -50,11 +50,8 @@ variable "ecs_cluster_name" {
   type = string
 }
 
-
-variable "frontend_image" {
-  type = string
-}
-
-variable "backend_image" {
-  type = string
+variable "image_tag" {
+  description = "Docker image tag to deploy"
+  type        = string
+  default     = "latest"
 }

@@ -22,6 +22,13 @@ resource "aws_ecs_task_definition" "frontend" {
       image = var.frontend_image
 
       essential = true
+      
+      environment = [
+        {
+          name  = "BACKEND_URL"
+          value = "http://wallpaper-alb-338577839.ap-south-1.elb.amazonaws.com"
+        }
+      ]
 
       portMappings = [
 
